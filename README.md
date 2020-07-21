@@ -11,4 +11,5 @@ as the photos taken by a DJI drone and run the notebook in Jupyter.  The noteboo
 will create a CSV file (output.csv by default that can be changed) containing the
 filenames, Latitudes (in Degrees Minutes Seconds), Longitudes (in Degrees Minutes
 Seconds), drone altitude that the picture was taken in meters, and drone altitude
-that the picture was taken in feet.
+that the picture was taken in feet.  The CSV can be used to plot the photo
+locations in a GIS, Google Earth, etc.
