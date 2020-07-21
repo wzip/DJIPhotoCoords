@@ -4,7 +4,7 @@ Takes DJI drone photo coordinates from photo metadata (EXIF) and puts them in a 
 This Jupyter notebook requires the Python Imaging Library (PIL) fork pillow.
 To install in anaconda, at the anaconda prompt:
 
-c:\>conda install pillow
+c:\> conda install pillow
 
 To use this script, place the notebook (DJIPhotoCoords.ipynb) in the same folder
 as the photos taken by a DJI drone and run the notebook in Jupyter.  The notebook
