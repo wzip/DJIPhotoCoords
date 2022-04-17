@@ -10,9 +10,9 @@ To install in Python, at the command prompt:
 
 c:\> pip install pillow
 
-To use this script, place the notebook (DJIPhotoCoords.ipynb) or Python script 
-(DJIPhotoCoords.py) in the same folderas the photos taken by a DJI drone and run 
-the it using Jupyter or Python.  The program will create a CSV file 
+To use this script, place the notebook (DJIPhotoCoordsJupyter.ipynb) or Python 
+script (DJIPhotoCoords.py) in the same folderas the photos taken by a DJI drone 
+and run it using Jupyter or Python.  The program will create a CSV file 
 (output.csv by default that can be changed) containing the filenames, Latitudes 
 (in Degrees Minutes Seconds and Decimal Degrees), Longitudes (in Degrees Minutes
 Seconds and decimal degrees), drone altitude that the picture was taken in meters, 
