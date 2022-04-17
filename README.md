@@ -13,3 +13,8 @@ filenames, Latitudes (in Degrees Minutes Seconds), Longitudes (in Degrees Minute
 Seconds), drone altitude that the picture was taken in meters, and drone altitude
 that the picture was taken in feet.  The CSV can be used to plot the photo
 locations in a GIS, Google Earth, etc.
+
+# Dependencies
+Python version >= 3.7.11
+Additional Python dependencies can be found in pyDependencies.txt
+
