@@ -70,7 +70,7 @@ def main():
         if gpsInfo[1] == 'S':
             latDeg = latDeg*-1.0
             latDD = latDD*-1.0
-            latDegInt = int(latDeg)
+        latDegInt = int(latDeg)
         #retrieve longitude DMS from GPSInfo from photo
         lonDeg = float(gpsInfo[4][0])
         lonMin = float(gpsInfo[4][1])
