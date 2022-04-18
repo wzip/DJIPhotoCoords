@@ -42,12 +42,69 @@ def dmsToDD(d,m,s):
     dd = float(d)+float(dm/60)
     return dd
 
+#get dirctory for drone photos with a chooser
 def setPhotoDir():
     global photoDir
     objfile = filedialog.askdirectory()
 
+#set output csv wigh a chooser
+def setOuputFile():
+    global outputFile
+    files = [('CSV Files','*.csv'),
+                ('All Files','*.*')]
+    outputFile = filedialog.asksaveasfile(
+        filetypes = files,defaultextension=files)
+'''
+def setOutput():
+    files = [('All Files','*.*'),
+             ('Dat Files','*.dat')]
+    datfile = filedialog.asksaveasfile(
+        filetypes=files,defaultextension=files)
+'''
+#process files
+def proc():
+    print('Objective File: '+str(os.path.abspath(objfile)))
+
+#define the main GUI window
+def mainWindow():
+    allinputs = True
+    #create a main window
+    root = Tk()
+    root.title('ForMOM Converter')
+    root.geometry('300x250')
+    #create a title label
+    titleLbl = Label(root, text='Select Photo Folder & Output File')
+    #titleLbl.grid(column=0,row=0)
+    #create blank space label
+    blankLabel = Label(root,text='          ')
+    #define buttons
+    photoDirBtn = Button(root,text='Photo Folder',command=setPhotoDir)
+    outputFileBtn = Button(root,text='Output CSV',command=setOuputFile)
+    procBtn = Button(root,text='Process',command=proc)
+    #disable process button
+    '''
+    procBtn['state']='disabled'
+    if allinputs:
+        procBtn['state']='normal'
+    '''
+
+    #display buttons w/ blank space
+    titleLbl.pack()
+    photoDirBtn.pack(padx=10,pady=10)
+    outputFileBtn.pack(padx=10,pady=10)
+    procBtn.pack(padx=10,pady=10)
+
+    '''
+    blankLabel.grid(column=0,row=1)
+    objBtn.grid(column=0,row=2,padx=10,pady=10)
+    cstrBtn.grid(column=0,row=4,padx=10,pady=10)
+    datBtn.grid(column=0,row=6,padx=10,pady=10)
+    procBtn.grid(column=0,row=8,padx=10,pady=10)
+    '''
+
+
 def main():
-    mainWinidow()
+    mainWindow()
     '''
     #make a list of files in current directory
     flist = os.listdir()
