@@ -54,16 +54,13 @@ def setOuputFile():
                 ('All Files','*.*')]
     outputFile = filedialog.asksaveasfile(
         filetypes = files,defaultextension=files)
-'''
-def setOutput():
-    files = [('All Files','*.*'),
-             ('Dat Files','*.dat')]
-    datfile = filedialog.asksaveasfile(
-        filetypes=files,defaultextension=files)
-'''
+
 #process files
 def proc():
-    print('Objective File: '+str(os.path.abspath(objfile)))
+    global outputFile
+    global photoDir
+    print('Output File: '+str(outputFile))
+    print('Photo Directory: '+str(photoDir))
 
 #define the main GUI window
 def mainWindow():
@@ -71,7 +68,7 @@ def mainWindow():
     #create a main window
     root = Tk()
     root.title('ForMOM Converter')
-    root.geometry('300x250')
+    root.geometry('300x200')
     #create a title label
     titleLbl = Label(root, text='Select Photo Folder & Output File')
     #titleLbl.grid(column=0,row=0)
