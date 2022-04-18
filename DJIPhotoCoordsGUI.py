@@ -59,57 +59,12 @@ def setOutFile():
 def proc():
     global outputFile
     global photoDir
-    print('Output File: '+str(outFile))
-    print('Photo Directory: '+str(photoDir))
-
-#define the main GUI window
-def mainWindow():
-    allinputs = True
-    #create a main window
-    root = Tk()
-    root.title('ForMOM Converter')
-    root.geometry('300x200')
-    #create a title label
-    titleLbl = Label(root, text='Select Photo Folder & Output File')
-    #titleLbl.grid(column=0,row=0)
-    #create blank space label
-    blankLabel = Label(root,text='          ')
-    #define buttons
-    photoDirBtn = Button(root,text='Photo Folder',command=setPhotoDir)
-    outputFileBtn = Button(root,text='Output CSV',command=setOutFile)
-    procBtn = Button(root,text='Process',command=proc)
-    #disable process button
-    '''
-    procBtn['state']='disabled'
-    if allinputs:
-        procBtn['state']='normal'
-    '''
-
-    #display buttons w/ blank space
-    titleLbl.pack()
-    photoDirBtn.pack(padx=10,pady=10)
-    outputFileBtn.pack(padx=10,pady=10)
-    procBtn.pack(padx=10,pady=10)
-
-    '''
-    blankLabel.grid(column=0,row=1)
-    objBtn.grid(column=0,row=2,padx=10,pady=10)
-    cstrBtn.grid(column=0,row=4,padx=10,pady=10)
-    datBtn.grid(column=0,row=6,padx=10,pady=10)
-    procBtn.grid(column=0,row=8,padx=10,pady=10)
-    '''
-
-
-def main():
-    mainWindow()
-    '''
-    #make a list of files in current directory
-    flist = os.listdir()
+    flist = os.listdir(photoDir)
     images = []
 
     #***THIS IS WHERE YOU CHANGE THE OUTPUT FILENAME!!!
     #output CSV filename; You can change the filename in '' here!
-    OUTFILE = 'output.csv'
+    #OUTFILE = 'output.csv'
 
     #populate images[] with file paths
     for file in flist:
@@ -118,7 +73,7 @@ def main():
             images.append(fpath)
 
     #open a csv outputfile
-    outputFile = open(OUTFILE, 'w', newline='')
+    outputFile = open(outFile, 'w', newline='')
     wrtr = csv.writer(outputFile)
     #write the first row as column headers
     wrtr.writerow(['FileName','Latitude_DMS','Longitude_DMS','Latitude_DD','Longitude_DD','Altitude_m','Altitude_ft'])
@@ -158,8 +113,49 @@ def main():
         wrtr.writerow([str(fname),latDMS,lonDMS,str(latDD),str(lonDD),str(altM),str(altF)])
     #end for loop
     outputFile.close()
-    print('All finished! Output written to '+OUTFILE)
+    messagebox.showinfo(title='Success!',
+                        message='Output written to '+outFile
+                        )
     '''
+    print('All finished! Output written to '+outFile)
+    print('Output File: '+str(outFile))
+    print('Photo Directory: '+str(photoDir))
+    '''
+#end proc()
+
+#define the main GUI window
+def mainWindow():
+    allinputs = True
+    #create a main window
+    root = Tk()
+    root.title('DJI Photo Coords')
+    root.geometry('300x200')
+    #create a title label
+    titleLbl = Label(root, text='Select Photo Folder & Output File')
+    #titleLbl.grid(column=0,row=0)
+    #create blank space label
+    blankLabel = Label(root,text='          ')
+    #define buttons
+    photoDirBtn = Button(root,text='Photo Folder',command=setPhotoDir)
+    outputFileBtn = Button(root,text='Output CSV',command=setOutFile)
+    procBtn = Button(root,text='Process',command=proc)
+    #disable process button
+    '''
+    procBtn['state']='disabled'
+    if allinputs:
+        procBtn['state']='normal'
+    '''
+
+    #display buttons w/ blank space
+    titleLbl.pack()
+    photoDirBtn.pack(padx=10,pady=10)
+    outputFileBtn.pack(padx=10,pady=10)
+    procBtn.pack(padx=10,pady=10)
+
+
+
+def main():
+    mainWindow()
 
 if __name__=='__main__':
     main()
