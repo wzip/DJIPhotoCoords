@@ -24,7 +24,7 @@ from PIL.ExifTags import TAGS
 
 #global variables
 photoDir = ''
-outputFile = ''
+outFile = ''
 
 def get_exif(fn):
     ret = {}
@@ -45,21 +45,21 @@ def dmsToDD(d,m,s):
 #get dirctory for drone photos with a chooser
 def setPhotoDir():
     global photoDir
-    objfile = filedialog.askdirectory()
+    photoDir = filedialog.askdirectory()
 
 #set output csv wigh a chooser
-def setOuputFile():
-    global outputFile
+def setOutFile():
+    global outFile
     files = [('CSV Files','*.csv'),
                 ('All Files','*.*')]
-    outputFile = filedialog.asksaveasfile(
+    outFile = filedialog.asksaveasfile(
         filetypes = files,defaultextension=files)
 
 #process files
 def proc():
     global outputFile
     global photoDir
-    print('Output File: '+str(outputFile))
+    print('Output File: '+str(outFile))
     print('Photo Directory: '+str(photoDir))
 
 #define the main GUI window
@@ -76,7 +76,7 @@ def mainWindow():
     blankLabel = Label(root,text='          ')
     #define buttons
     photoDirBtn = Button(root,text='Photo Folder',command=setPhotoDir)
-    outputFileBtn = Button(root,text='Output CSV',command=setOuputFile)
+    outputFileBtn = Button(root,text='Output CSV',command=setOutFile)
     procBtn = Button(root,text='Process',command=proc)
     #disable process button
     '''
