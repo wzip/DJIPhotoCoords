@@ -25,6 +25,9 @@ from PIL.ExifTags import TAGS
 #global variables
 photoDir = ''
 outFile = ''
+photoSel = False
+outputSel = False
+allinputs = False
 
 def get_exif(fn):
     ret = {}
@@ -45,15 +48,35 @@ def dmsToDD(d,m,s):
 #get dirctory for drone photos with a chooser
 def setPhotoDir():
     global photoDir
+    global outputSel
+    global photoSel
+    global allinputs
+    global photoLabel
     photoDir = filedialog.askdirectory()
+    photoLabel.config(text='Photo Dir: '+str(photoDir))
+    photoSel = True
+    if outputSel:
+        allinputs = True
+    if allinputs:
+        procBtn['state']='normal'
 
 #set output csv wigh a chooser
 def setOutFile():
     global outFile
+    global outputSel
+    global photoSel
+    global allinputs
+    global outputLabel
     files = [('CSV Files','*.csv'),
                 ('All Files','*.*')]
-    outFile = filedialog.asksaveasfile(
+    outFile = filedialog.asksaveasfilename(
         filetypes = files,defaultextension=files)
+    outputLabel.config(text='Output CSV: '+str(outFile))
+    outputSel = True
+    if photoSel:
+        allinputs = True
+    if allinputs:
+        procBtn['state']='normal'
 
 #process files
 def proc():
@@ -71,6 +94,7 @@ def proc():
         if file.endswith('.jpg') or file.endswith('.JPG'):
             fpath = os.path.abspath(file)
             images.append(fpath)
+            print(str(fpath))
 
     #open a csv outputfile
     outputFile = open(outFile, 'w', newline='')
@@ -125,7 +149,9 @@ def proc():
 
 #define the main GUI window
 def mainWindow():
-    allinputs = True
+    global photoLabel
+    global outputLabel
+    global procBtn
     #create a main window
     root = Tk()
     root.title('DJI Photo Coords')
@@ -135,24 +161,27 @@ def mainWindow():
     #titleLbl.grid(column=0,row=0)
     #create blank space label
     blankLabel = Label(root,text='          ')
+    photoLabel = Label(root,text='Photo Dir: ')
+    outputLabel = Label(root,text='Output CSV: ')
     #define buttons
     photoDirBtn = Button(root,text='Photo Folder',command=setPhotoDir)
     outputFileBtn = Button(root,text='Output CSV',command=setOutFile)
     procBtn = Button(root,text='Process',command=proc)
     #disable process button
-    '''
     procBtn['state']='disabled'
     if allinputs:
         procBtn['state']='normal'
-    '''
 
-    #display buttons w/ blank space
+
+    #display buttons and labels
     titleLbl.pack()
     photoDirBtn.pack(padx=10,pady=10)
+    photoLabel.pack()
     outputFileBtn.pack(padx=10,pady=10)
+    outputLabel.pack()
     procBtn.pack(padx=10,pady=10)
 
-
+#end mainWindow()
 
 def main():
     mainWindow()
