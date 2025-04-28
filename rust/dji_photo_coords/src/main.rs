@@ -12,20 +12,83 @@ struct DJIPhotoCoordsApp {
     input_folder: String,
     output_file: String,
     status: String,
+    show_license: bool,
+    license_text: String,
 }
 
 impl Default for DJIPhotoCoordsApp {
     fn default() -> Self {
+        let license_text = match std::fs::read_to_string("LICENSE.txt") {
+            Ok(text) => text,
+            Err(_) => {
+                "MIT License
+
+Copyright (c) 2022 William E. Zipse
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the \"Software\"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.".to_string()
+            }
+        };
+
         Self {
             input_folder: String::new(),
             output_file: String::new(),
             status: String::new(),
+            show_license: false,
+            license_text,
         }
     }
 }
 
 impl eframe::App for DJIPhotoCoordsApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+        // Show top menu bar
+        egui::TopBottomPanel::top("top_panel").show(ctx, |ui| {
+            egui::menu::bar(ui, |ui| {
+                ui.menu_button("Help", |ui| {
+                    if ui.button("About").clicked() {
+                        self.show_license = true;
+                        ui.close_menu();
+                    }
+                });
+            });
+        });
+
+        // Show license popup if needed
+        if self.show_license {
+            egui::Window::new("License")
+                .open(&mut self.show_license)
+                .resizable(true)
+                .default_size([400.0, 300.0])
+                .show(ctx, |ui| {
+                    ui.vertical_centered(|ui| {
+                        ui.heading("MIT License");
+                        ui.separator();
+                        ui.add_space(8.0);
+                        egui::ScrollArea::vertical()
+                            .max_height(200.0)
+                            .show(ui, |ui| {
+                                ui.label(&self.license_text);
+                            });
+                    });
+                });
+        }
+
         egui::CentralPanel::default().show(ctx, |ui| {
             ui.heading("DJI Photo Coordinates Extractor");
 
@@ -141,7 +204,7 @@ impl DJIPhotoCoordsApp {
         let lat = Self::rational_to_degrees(&lat_field.value)?;
         let lon = Self::rational_to_degrees(&lon_field.value)?;
 
-        // Extract “N” / “S”
+        // Extract "N" / "S"
         let lat_ref = match &lat_ref_field.value {
             Value::Ascii(vec) if !vec.is_empty() => {
                 String::from_utf8_lossy(&vec[0]).into_owned()
